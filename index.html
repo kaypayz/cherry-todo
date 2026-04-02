@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cherry To-Do Lists</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #ffe6f0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .list-container {
+    display: flex;
+    gap: 40px;
+  }
+
+  .todo-list {
+    background: #fff0f5;
+    border: 2px dashed #ff66a3;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+  }
+
+  .todo-list h2 {
+    text-align: center;
+    color: #ff3366;
+  }
+
+  .todo-item {
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    justify-content: space-between;
+    transition: background 0.3s;
+  }
+
+  .cherries {
+    margin-left: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="list-container">
+  <div class="todo-list" id="list1">
+    <h2>List 1</h2>
+  </div>
+
+  <div class="todo-list" id="list2">
+    <h2>List 2</h2>
+  </div>
+</div>
+
+<script>
+  const colors = ['#ffb3c6', '#ff66a3', '#ff3385', '#ff0066', '#cc0052', '#ff99c2', '#ff3399']; 
+
+  function getWeekNumber(d) {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+  }
+
+  const weekNum = getWeekNumber(new Date());
+  const color = colors[weekNum % colors.length];
+
+  function createList(listId) {
+    const list = document.getElementById(listId);
+    for(let i=1; i<=20; i++){
+      const item = document.createElement('div');
+      item.className = 'todo-item';
+      item.style.background = color;
+      item.textContent = `Task ${i} (Non-Negotiable)`;
+      
+      const cherries = document.createElement('span');
+      cherries.className = 'cherries';
+      cherries.textContent = '🍒🍒';
+      
+      item.appendChild(cherries);
+      list.appendChild(item);
+    }
+  }
+
+  createList('list1');
+  createList('list2');
+</script>
+
+</body>
+</html>
